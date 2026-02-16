@@ -1,6 +1,6 @@
 // src/components/layout/MainLayout.jsx
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Compass, Heart, Clock, User } from 'lucide-react';
+import { Home, Compass, Heart, Clock, User, Search } from 'lucide-react';
 
 const MainLayout = () => {
     const location = useLocation();
@@ -9,9 +9,9 @@ const MainLayout = () => {
     const navItems = [
         { id: 'home', label: 'Home', icon: Home, path: '/' },
         { id: 'explore', label: 'Explore', icon: Compass, path: '/explore' },
+        { id: 'search', label: 'Search', icon: Search, path: '/search' },
         { id: 'mylist', label: 'My List', icon: Heart, path: '/mylist' },
         { id: 'history', label: 'History', icon: Clock, path: '/history' },
-        { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
     ];
 
     const isActive = (path) => {
@@ -44,9 +44,7 @@ const MainLayout = () => {
                                         strokeWidth={active ? 2.5 : 2}
                                         className={`transition-transform duration-300 ${active ? 'scale-110' : ''}`}
                                     />
-                                    {active && (
-                                        <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary-400 rounded-full" />
-                                    )}
+                                    
                                 </div>
                                 <span className={`text-[10px] font-medium ${active ? 'opacity-100' : 'opacity-70'}`}>
                                     {item.label}
