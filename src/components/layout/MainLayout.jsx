@@ -24,7 +24,7 @@ const MainLayout = () => {
             <Outlet />
 
             {/* Bottom Navigation */}
-            <nav className="fixed bottom-0 left-0 right-0 glass border-t border-dark-border z-50 pb-safe">
+            <nav className="fixed bottom-0 left-0 right-0 glass border-t border-dark-border z-50 pb-safe md:hidden">
                 <div className="flex justify-around items-center h-16 max-w-lg mx-auto">
                     {navItems.map((item) => {
                         const Icon = item.icon;
