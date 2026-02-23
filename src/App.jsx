@@ -33,10 +33,10 @@ function App() {
         {/* Routes with bottom navigation */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorerPage />} />
+          {/* <Route path="/explore" element={<ExplorerPage />} />
           <Route path="/mylist" element={<MyListPage />} />
           <Route path="/history" element={<HistoryPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/search" element={<Search />} />
         </Route>
       </Routes>
