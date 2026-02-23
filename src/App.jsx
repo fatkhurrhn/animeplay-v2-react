@@ -2,16 +2,12 @@
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import HomePage from './pages/HomePage';
-import StreamingAnime from './pages/streaming/StreamingAnime';
-import ExplorerPage from './pages/ExplorerPage';
-import HistoryPage from './pages/HistoryPage';
-import MyListPage from './pages/MyListPage';
-import ProfilePage from './pages/ProfilePage';
 import AutoToTop from './components/AutoToTop';
 import Search from './pages/SearchPage';
 import DetailAnime from './pages/DetailPage/DetailAnime';
 import DetailPage from './pages/DetailPage';
 import WatchPage from './pages/WatchPage';
+import StreamingAnime from './pages/streaming/StreamingAnime';
 
 function App() {
   return (
@@ -20,7 +16,7 @@ function App() {
       <Routes>
         {/* Routes without bottom navigation (full screen) - LETAKKAN DI ATAS */}
         <Route path="/detail-anime" element={<DetailAnime />} />
-        <Route path="/streaming/anime" element={< StreamingAnime/>} />
+        <Route path="/streaming/anime" element={< StreamingAnime />} />
 
         <Route path="/detail/:type/:slug" element={<DetailPage />} />
         {/* Fallback route if type is not specified */}
