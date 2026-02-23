@@ -4,10 +4,8 @@ import MainLayout from './components/layout/MainLayout';
 import HomePage from './pages/HomePage';
 import AutoToTop from './components/AutoToTop';
 import Search from './pages/SearchPage';
-import DetailAnime from './pages/DetailPage/DetailAnime';
 import DetailPage from './pages/DetailPage';
 import WatchPage from './pages/WatchPage';
-import AnimeStreaming from './pages/streaming/AnimeSteaming';
 
 function App() {
   return (
@@ -16,7 +14,6 @@ function App() {
       <Routes>
         {/* Routes without bottom navigation (full screen) - LETAKKAN DI ATAS */}
         <Route path="/detail-anime" element={<DetailAnime />} />
-        <Route path="/streaming/anime" element={< AnimeStreaming />} />
 
         <Route path="/detail/:type/:slug" element={<DetailPage />} />
         {/* Fallback route if type is not specified */}
