@@ -1,8 +1,8 @@
-// src/pages/streaming/StreamingAnime.jsx
+// src/pages/streaming/AnimeSteaming.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function StreamingAnime() {
+export default function AnimeStreaming() {
     const [streamData, setStreamData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('stream');
