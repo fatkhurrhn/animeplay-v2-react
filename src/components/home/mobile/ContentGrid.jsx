@@ -170,9 +170,9 @@ export default function ContentGrid({
                 <div>
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-lg font-semibold">Episode Terbaru</h2>
-                        <span className="text-xs text-mykisah-text-secondary">
-                            {displayedAnimeData.length} dari {totalAnimeData} titles
-                        </span>
+                        <Link to="/explore/anime" className="text-sm hover:underline text-mykisah-primary">
+                            Semua
+                        </Link>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                         {displayedAnimeData.map((item, index) => (
@@ -196,9 +196,9 @@ export default function ContentGrid({
                 <div>
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-lg font-semibold">Episode Terbaru</h2>
-                        <span className="text-xs text-mykisah-text-secondary">
-                            {displayedDonghuaData.length} dari {totalDonghuaData} titles
-                        </span>
+                            <Link to="/explore/donghua" className="text-sm hover:underline text-mykisah-primary">
+                                Semua
+                            </Link>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                         {displayedDonghuaData.map((item, index) => (

@@ -29,10 +29,10 @@
 @layer base {
   :root {
     /* Palette warna MyKisah - Dark Mode */
-    --mykisah-primary: #f3a143;      /* Oranye utama - untuk logo, tombol aktif */
-    --mykisah-secondary: #fbc266;     /* Oranye muda - untuk timestamp, aksen */
-    --mykisah-tertiary: #fee0ae;      /* Krem - untuk judul section */
-    --mykisah-accent: #e39923;        /* Oranye gelap - untuk hover */
+    --mykisah-primary: #f3a143;      
+    --mykisah-secondary: #fbc266;    
+    --mykisah-tertiary: #fee0ae;     
+    --mykisah-accent: #e39923;       
     
     /* Background & Surface */
     --mykisah-bg-primary: #000000;     /* Background utama */
@@ -86,3 +86,5 @@
   .hover\:border-mykisah-primary:hover { border-color: var(--mykisah-primary); }
   .hover\:text-mykisah-primary:hover { color: var(--mykisah-primary); }
 }
+
+

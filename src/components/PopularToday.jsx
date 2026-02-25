@@ -113,7 +113,7 @@ export default function PopularToday() {
                 </div>
 
                 <Link
-                    to="/popular-donghua"
+                    to="/explore/detail/popular-today"
                     className="text-sm hover:underline text-mykisah-primary"
                 >
                     Detail

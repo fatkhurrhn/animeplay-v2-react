@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/home/mobile/Navbar';
+import Navbar from '../components/home/mobile/Header';
 import TabNavigation from '../components/home/mobile/TabNavigation';
 import ContentGrid from '../components/home/mobile/ContentGrid';
 import ScrollToTop from '../components/home/mobile/ScrollToTop';
 import DonateSection from '../components/home/mobile/DonateSection';
 import ContinueWatching from '../components/home/mobile/ContinueWatching';
-import Top10Anime from '../components/home/mobile/Top10Anime';
-import PopularToday from '../components/home/mobile/PopularToday';
+import Top10Anime from '../components/Top10Anime';
+import PopularToday from '../components/PopularToday';
 
 export default function MobilePage() {
     const [activeTab, setActiveTab] = useState('anime');
@@ -79,9 +79,9 @@ export default function MobilePage() {
     return (
         <div className="min-h-screen bg-mykisah-bg-primary text-mykisah-text-primary pb-4">
             <Navbar />
-            <DonateSection/>
+            <DonateSection />
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-            <ContinueWatching/>
+            <ContinueWatching />
             <ContentGrid
                 activeTab={activeTab}
                 animeData={animeData}
@@ -91,8 +91,8 @@ export default function MobilePage() {
                 onLoadMoreAnime={loadMoreAnime}
                 onLoadMoreDonghua={loadMoreDonghua}
             />
-            <PopularToday/>
-            <Top10Anime/>
+            {/* <PopularToday /> */}
+            <Top10Anime />
         </div>
     );
 }
