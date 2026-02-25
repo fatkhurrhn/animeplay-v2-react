@@ -1,46 +1,6 @@
 /* index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
-  overflow-x: hidden;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ffaf2f;
-}
-
 /* Hide scrollbar for mobile horizontal scroll */
 .hide-scrollbar {
   -ms-overflow-style: none;
@@ -51,394 +11,78 @@ body {
   display: none;
 }
 
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, #fee0ae 0%, #ffaf2f 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glass Effect */
-.glass {
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Card Hover Effect */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px -10px rgba(255, 175, 47, 0.3);
-}
-
-/* Image Loading Skeleton */
-.skeleton {
-  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Safe area for mobile */
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-}
-
-/* Detail Page Specific Styles */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Smooth transitions for tab switching */
-.tab-content {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Episode item hover effect */
-.episode-item {
-  transition: all 0.2s ease;
-}
-
-.episode-item:hover {
-  transform: translateX(4px);
-}
-
-/* Glass morphism enhancement */
-.glass-strong {
-  background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-/* Poster shadow */
-.poster-shadow {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-}
-
-/* Gradient border */
-.gradient-border {
-  position: relative;
-  background: linear-gradient(to right, #1a1a1a, #1a1a1a);
-  background-clip: padding-box;
-  border: 2px solid transparent;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  margin: -2px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, #fee0ae, #ffaf2f);
-}
-
-/* Streaming Page Styles */
-.aspect-video {
-  aspect-ratio: 16 / 9;
-}
-
-/* Custom Range Slider */
-input[type="range"] {
-  -webkit-appearance: none;
-  background: transparent;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 16px;
-  width: 16px;
-  border-radius: 50%;
-  background: #ffaf2f;
-  cursor: pointer;
-  margin-top: -6px;
-  box-shadow: 0 0 10px rgba(255, 175, 47, 0.5);
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  cursor: pointer;
-  background: #4a4a4a;
-  border-radius: 2px;
-}
-
-input[type="range"]:focus {
-  outline: none;
-}
-
-/* Loading Spinner */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Pulse Animation */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Hide scrollbar but keep functionality */
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Line clamp utilities */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-4 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Glass effect */
-.glass {
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Transition utilities */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
-/* Focus styles */
-button:focus-visible {
-  outline: 2px solid #ffaf2f;
-  outline-offset: 2px;
-}
-
-/* Disabled state */
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Hover lift effect */
-.hover\:lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -5px rgba(255, 175, 47, 0.2);
-}
-
-/* Video player specific */
-video {
-  object-fit: contain;
-}
-
-/* Fullscreen styles */
-:fullscreen {
-  background: black;
-}
-
-:fullscreen video {
-  width: 100%;
-  height: 100%;
-}
-
-/* Explorer Page Specific Styles */
-
-/* Hide scrollbar */
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #fee0ae 0%, #ffaf2f 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-/* Skeleton loading */
-.skeleton {
-  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Glass effect */
-.glass {
-  background: rgba(20, 20, 20, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Safe area padding */
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-}
-
-/* Line clamp utilities */
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Hover effects */
-.hover\:lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -10px rgba(255, 175, 47, 0.3);
-}
-
-/* Focus styles */
-button:focus-visible {
-  outline: 2px solid #ffaf2f;
-  outline-offset: 2px;
-}
-
-/* Genre card gradient backgrounds */
-.genre-gradient-action { background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.2)); }
-.genre-gradient-adventure { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2)); }
-.genre-gradient-comedy { background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(245, 158, 11, 0.2)); }
-.genre-gradient-demons { background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(99, 102, 241, 0.2)); }
-.genre-gradient-drama { background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(244, 63, 94, 0.2)); }
-.genre-gradient-ecchi { background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(251, 113, 133, 0.2)); }
-.genre-gradient-fantasy { background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.2)); }
-.genre-gradient-isekai { background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(59, 130, 246, 0.2)); }
-.genre-gradient-magic { background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2)); }
-.genre-gradient-romance { background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(236, 72, 153, 0.2)); }
-.genre-gradient-school { background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(34, 211, 238, 0.2)); }
-.genre-gradient-scifi { background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(37, 99, 235, 0.2)); }
-.genre-gradient-shounen { background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 179, 8, 0.2)); }
-
-
+/* Tambahin utility buat hide scrollbar */
 @layer utilities {
-  .hide-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Palette warna MyKisah - Dark Mode */
+    --mykisah-primary: #f5b048;      /* Oranye utama - untuk logo, tombol aktif */
+    --mykisah-secondary: #fbc266;     /* Oranye muda - untuk timestamp, aksen */
+    --mykisah-tertiary: #fee0ae;      /* Krem - untuk judul section */
+    --mykisah-accent: #e39923;        /* Oranye gelap - untuk hover */
+    
+    /* Background & Surface */
+    --mykisah-bg-primary: #000000;     /* Background utama */
+    --mykisah-bg-secondary: #1a1a1a;   /* Background card */
+    --mykisah-bg-tertiary: #2a2a2a;    /* Background hover, border */
+    
+    /* Text colors */
+    --mykisah-text-primary: #ffffff;    /* Text putih */
+    --mykisah-text-secondary: #9ca3af;  /* Text abu-abu (gray-400) */
+    
+    /* Status colors */
+    --mykisah-hot: #ef4444;             /* Merah untuk badge HOT */
+    --mykisah-sub: #3b82f6;             /* Biru untuk badge SUB */
   }
+
+  /* Kalo mau light mode nanti tinggal tambahin class .light-mode */
+  .light-mode {
+    --mykisah-primary: #e39923;
+    --mykisah-secondary: #f5b048;
+    --mykisah-tertiary: #fbc266;
+    --mykisah-accent: #f5b048;
+    --mykisah-bg-primary: #ffffff;
+    --mykisah-bg-secondary: #f3f4f6;
+    --mykisah-bg-tertiary: #e5e7eb;
+    --mykisah-text-primary: #111827;
+    --mykisah-text-secondary: #4b5563;
+  }
+}
+
+/* Utility classes biar gampang dipake */
+@layer utilities {
+  .bg-mykisah-primary { background-color: var(--mykisah-primary); }
+  .bg-mykisah-secondary { background-color: var(--mykisah-secondary); }
+  .bg-mykisah-tertiary { background-color: var(--mykisah-tertiary); }
+  .bg-mykisah-accent { background-color: var(--mykisah-accent); }
+  .bg-mykisah-bg-primary { background-color: var(--mykisah-bg-primary); }
+  .bg-mykisah-bg-secondary { background-color: var(--mykisah-bg-secondary); }
+  .bg-mykisah-bg-tertiary { background-color: var(--mykisah-bg-tertiary); }
   
-  .glass {
-    background: rgba(18, 18, 18, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
+  .text-mykisah-primary { color: var(--mykisah-primary); }
+  .text-mykisah-secondary { color: var(--mykisah-secondary); }
+  .text-mykisah-tertiary { color: var(--mykisah-tertiary); }
+  .text-mykisah-text-primary { color: var(--mykisah-text-primary); }
+  .text-mykisah-text-secondary { color: var(--mykisah-text-secondary); }
   
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary-200 to-primary-400 bg-clip-text text-transparent;
-  }
+  .border-mykisah-primary { border-color: var(--mykisah-primary); }
+  .border-mykisah-secondary { border-color: var(--mykisah-secondary); }
+  .border-mykisah-bg-tertiary { border-color: var(--mykisah-bg-tertiary); }
   
-  .card-hover {
-    transition: transform 0.2s ease-in-out;
-  }
-  .card-hover:hover {
-    transform: scale(1.02);
-  }
-  
-  .skeleton {
-    @apply bg-gradient-to-r from-dark-card via-dark-surface to-dark-card animate-pulse;
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .hover\:bg-mykisah-accent:hover { background-color: var(--mykisah-accent); }
+  .hover\:border-mykisah-primary:hover { border-color: var(--mykisah-primary); }
+  .hover\:text-mykisah-primary:hover { color: var(--mykisah-primary); }
 }

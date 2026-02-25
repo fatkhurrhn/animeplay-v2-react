@@ -1,6 +1,6 @@
 // src/pages/DetailPage.jsx
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 
 export default function DetailPage() {
     const { type, slug } = useParams()
@@ -13,6 +13,7 @@ export default function DetailPage() {
 
     useEffect(() => {
         fetchDetail()
+        // Load last watched episode from localStorage
         const saved = localStorage.getItem(`lastWatched_${type}_${slug}`)
         if (saved) {
             setLastWatched(JSON.parse(saved))
@@ -39,8 +40,10 @@ export default function DetailPage() {
 
     const handlePlayClick = () => {
         if (lastWatched) {
+            // Navigate to last watched episode
             navigate(`/watch/${type}/${lastWatched.slug}`)
         } else if (data.episodes?.length > 0) {
+            // Navigate to first episode
             const firstEp = data.episodes[0]
             const epSlug = extractEpisodeSlug(firstEp)
             navigate(`/watch/${type}/${epSlug}`)
@@ -49,6 +52,8 @@ export default function DetailPage() {
 
     const handleEpisodeClick = (episode) => {
         const epSlug = extractEpisodeSlug(episode)
+
+        // Save to localStorage
         const watchData = {
             slug: epSlug,
             number: episode.episode || episode.number,
@@ -57,15 +62,19 @@ export default function DetailPage() {
             timestamp: Date.now()
         }
         localStorage.setItem(`lastWatched_${type}_${slug}`, JSON.stringify(watchData))
+
+        // Navigate to watch page
         navigate(`/watch/${type}/${epSlug}`)
     }
 
     const extractEpisodeSlug = (episode) => {
         if (type === 'anime') {
+            // From anime URL: https://v1.samehadaku.how/omae-gotoki-ga-maou-ni-kateru-to-omouna-episode-6/
             const url = episode.url || episode.full_title || ''
             const matches = url.match(/\/([^\/]+?)(?:\/?)$/)
             return matches ? matches[1] : ''
         } else {
+            // From donghua URL: https://anichin.moe/martial-god-asura-season-2-episode-03-subtitle-indonesia/
             const url = episode.url || ''
             const matches = url.match(/https:\/\/anichin\.moe\/([^\/]+)/)
             return matches ? matches[1] : ''
@@ -117,30 +126,39 @@ export default function DetailPage() {
 
     const RecommendationCard = ({ item }) => {
         const handleRecommendationClick = () => {
+            // Extract slug from URL
             let recSlug = ''
-            let recType = 'anime'
+            let recType = 'anime' // default
 
             if (item.url) {
+                // Handle different URL formats
                 if (typeof item.url === 'string') {
+                    // For anime (samehadaku)
                     if (item.url.includes('samehadaku')) {
                         const matches = item.url.match(/\/(?:anime|donghua)\/([^\/]+)/)
                         recSlug = matches ? matches[1] : ''
                         recType = 'anime'
-                    } else if (item.url.includes('anichin.moe')) {
+                    }
+                    // For donghua (anichin)
+                    else if (item.url.includes('anichin.moe')) {
                         const matches = item.url.match(/https:\/\/anichin\.moe\/([^\/]+)/)
                         recSlug = matches ? matches[1] : ''
                         recType = 'donghua'
                     }
-                } else if (item.url?.detail) {
+                }
+                // Handle object format (some donghua have url as object)
+                else if (item.url?.detail) {
                     const matches = item.url.detail.match(/https:\/\/anichin\.moe\/([^\/]+)/)
                     recSlug = matches ? matches[1] : ''
                     recType = 'donghua'
                 }
             }
 
+            // Alternative: use item.source to determine type
             if (!recSlug) {
                 if (item.source === 'anichin') {
                     recType = 'donghua'
+                    // Try to get from title as fallback
                     recSlug = item.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-')
                 } else {
                     recType = 'anime'
@@ -213,6 +231,7 @@ export default function DetailPage() {
     const recommendations = data.recommendations || []
     const infoItems = getInfoItems()
 
+    // Sort episodes by number (ascending)
     const sortedEpisodes = [...episodes].sort((a, b) => {
         const numA = parseInt(isAnime ? a.episode : a.number)
         const numB = parseInt(isAnime ? b.episode : b.number)
@@ -221,95 +240,130 @@ export default function DetailPage() {
 
     return (
         <div className="min-h-screen bg-mykisah-bg-primary text-mykisah-text-primary pb-20">
-            {/* Hero Section dengan Poster Full */}
-            <div className="relative h-[420px] md:h-[500px]">
-                {/* Background Image dengan Blur */}
-                <div
-                    className="absolute inset-0 bg-cover bg-[center_6%]"
-                    style={{ backgroundImage: `url(${image})` }}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-t from-mykisah-bg-primary via-mykisah-bg-primary/80 to-transparent"></div>
-                </div>
-
-                {/* Back Button */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="absolute top-4 left-4 z-10 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10"
-                >
-                    <i className="ri-arrow-left-line text-xl text-white"></i>
-                </button>
-
-                {/* Action Buttons Top Right */}
-                <div className="absolute top-4 right-4 z-10 flex gap-2">
-                    <button className="w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10">
-                        <i className="ri-bookmark-line text-xl text-white"></i>
+            {/* Header dengan back button */}
+            <div className="sticky top-0 z-10 bg-mykisah-bg-primary/80 backdrop-blur-md border-b border-mykisah-bg-tertiary px-4 py-4">
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="text-mykisah-tertiary hover:text-mykisah-primary transition-colors"
+                    >
+                        <i className="ri-arrow-left-line text-2xl"></i>
                     </button>
-                    <button className="w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10">
-                        <i className="ri-share-line text-xl text-white"></i>
-                    </button>
+                    <h1 className="text-lg font-semibold truncate flex-1">
+                        <span className="text-white">My</span>
+                        <span className="text-mykisah-primary">Kisah</span>
+                    </h1>
+                    <div className="flex items-center gap-3">
+                        <button className="text-mykisah-tertiary hover:text-mykisah-primary transition-colors">
+                            <i className="ri-share-line text-xl"></i>
+                        </button>
+                        <button className="text-mykisah-tertiary hover:text-mykisah-primary transition-colors">
+                            <i className="ri-bookmark-line text-xl"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            {/* Content Section */}
-            <div className="px-4 mt-[7px] relative z-10">
-                <h1 className="text-2xl font-bold mb-1 text-white drop-shadow-lg">{title}</h1>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-mykisah-text-secondary mb-3">
-                    <span className="text-mykisah-primary font-bold flex items-center gap-1">
-                        <i className="ri-star-fill"></i>
-                        {isAnime ? data.details?.rating || 'N/A' : data.rating?.value || 'N/A'}
+            {/* Hero Section */}
+            <div className="relative">
+                {/* Background Blur */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center blur-2xl opacity-30"
+                    style={{ backgroundImage: `url(${image})` }}
+                ></div>
+
+                {/* Content */}
+                <div className="relative px-4 py-6 flex gap-4">
+                    {/* Poster */}
+                    <div className="w-32 flex-shrink-0">
+                        <img
+                            src={image}
+                            alt={title}
+                            className="w-full h-40 object-cover rounded-xl shadow-2xl border-2 border-mykisah-primary/20"
+                            onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/300x400?text=No+Image'
+                            }}
+                        />
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div>
+                <h1 className="text-xl font-bold mb-2 line-clamp-2">{title}</h1>
+            </div>
+
+            <div>
+                <div className="text-mykisah-primary font-bold">
+                    ⭐ {isAnime ? data.details?.rating || 'N/A' : data.rating?.value || 'N/A'} - tahun rilisnya (misal oct 5 2025 to ditulis jadi oct 2025) - nama studio - {isAnime ? data.details?.status : data.info?.status}
+                </div>
+            </div>
+
+            {/* Action Buttons - UPDATED */}
+            <div className="flex gap-2">
+                <button
+                    onClick={handlePlayClick}
+                    className="flex-1 py-2 bg-mykisah-primary text-black rounded-lg font-semibold flex items-center justify-center gap-1 hover:bg-mykisah-accent transition-colors"
+                >
+                    <i className="ri-play-circle-line"></i>
+                    <span>
+                        {lastWatched ? (
+                            <>Continue EP {formatNumber(lastWatched.number)}</>
+                        ) : (
+                            <>Start Watching</>
+                        )}
                     </span>
-                    • {isAnime ? data.details?.released : data.info?.released} • {isAnime ? data.details?.studio : data.info?.studio}
-                </div>
+                </button>
+                <button className="flex-1 py-2 bg-mykisah-bg-secondary text-mykisah-primary rounded-lg font-semibold border border-mykisah-bg-tertiary hover:bg-mykisah-bg-tertiary transition-colors">
+                    <i className="ri-download-2-line"></i>
+                    <span className="ml-1">Download</span>
+                </button>
+            </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-2 mb-4">
-                    {/* Play Button */}
-                    <button
-                        onClick={handlePlayClick}
-                        className="flex-1 py-2 bg-mykisah-primary text-black rounded-full font-medium flex items-center justify-center gap-2 hover:bg-mykisah-accent transition-colors"
+            {/* Last watched indicator */}
+            {lastWatched && (
+                <div className="mt-2 text-xs text-mykisah-text-secondary flex items-center gap-1">
+                    <i className="ri-history-line"></i>
+                    <span>Last watched: EP {formatNumber(lastWatched.number)}</span>
+                </div>
+            )}
+
+            {/* Synopsis */}
+            <div className="px-4 py-4 border-b border-mykisah-bg-tertiary">
+                <h2 className="font-medium">Genre: (genre2nya pindah sini) {genres.slice(0, 3).map((genre, idx) => (
+                    <span
+                        key={idx}
+                        className="text-xs px-2 py-1 bg-mykisah-bg-tertiary text-mykisah-secondary rounded-full"
                     >
-                        <i className="ri-play-circle-line text-lg"></i>
-                        <span>
-                            {lastWatched ? (
-                                <>Lanjut Ep {formatNumber(lastWatched.number)}</>
-                            ) : (
-                                <>Play</>
-                            )}
+                        {genre}
+                    </span>
+                ))}
+                    {genres.length > 3 && (
+                        <span className="text-xs px-2 py-1 bg-mykisah-bg-tertiary text-mykisah-text-secondary rounded-full">
+                            +{genres.length - 3}
                         </span>
+                    )}</h2>
+                <p className={`text-sm text-mykisah-text-secondary leading-relaxed ${!showFullDescription && 'line-clamp-3'}`}>
+                    {description}
+                </p>
+                {description.length > 200 && (
+                    <button
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="text-mykisah-primary text-sm mt-2 font-semibold"
+                    >
+                        {showFullDescription ? 'Show less' : 'Read more'}
                     </button>
-
-                    {/* Download Button */}
-                    <button className="flex-1 py-2.5 border border-mykisah-primary text-mykisah-primary bg-transparent rounded-full font-medium flex items-center justify-center gap-2 hover:bg-mykisah-primary/10 transition-colors">
-                        <i className="ri-download-2-line text-lg"></i>
-                        <span>Download</span>
-                    </button>
-                </div>
-
-                {/* Synopsis */}
-                <div className="mb-2">
-                    <p className="font-semibold text-[15px]">Genre: {genres.join(', ')}</p>
-                    <p className={`text-sm text-mykisah-text-secondary leading-relaxed ${!showFullDescription && 'line-clamp-3'}`}>
-                        {description}
-                    </p>
-                    {description.length > 200 && (
-                        <button
-                            onClick={() => setShowFullDescription(!showFullDescription)}
-                            className="text-mykisah-primary text-sm mt-2 font-semibold"
-                        >
-                            {showFullDescription ? 'Show less' : 'Read more'}
-                        </button>
-                    )}
-                </div>
+                )}
             </div>
 
             {/* Tab Navigation */}
-            <div className="sticky top-0 z-10 bg-mykisah-bg-primary/80 backdrop-blur-md border-b border-mykisah-bg-tertiary">
-                <div className="flex px-5">
+            <div className="sticky top-[72px] z-10 bg-mykisah-bg-primary/80 backdrop-blur-md border-b border-mykisah-bg-tertiary">
+                <div className="flex px-4">
                     <button
                         onClick={() => setActiveTab('episodes')}
                         className={`flex-1 py-3 font-semibold relative ${activeTab === 'episodes'
-                            ? 'text-mykisah-primary'
-                            : 'text-mykisah-text-secondary'
+                                ? 'text-mykisah-primary'
+                                : 'text-mykisah-text-secondary'
                             }`}
                     >
                         Episodes
@@ -320,8 +374,8 @@ export default function DetailPage() {
                     <button
                         onClick={() => setActiveTab('details')}
                         className={`flex-1 py-3 font-semibold relative ${activeTab === 'details'
-                            ? 'text-mykisah-primary'
-                            : 'text-mykisah-text-secondary'
+                                ? 'text-mykisah-primary'
+                                : 'text-mykisah-text-secondary'
                             }`}
                     >
                         Details
@@ -332,8 +386,8 @@ export default function DetailPage() {
                     <button
                         onClick={() => setActiveTab('recommendations')}
                         className={`flex-1 py-3 font-semibold relative ${activeTab === 'recommendations'
-                            ? 'text-mykisah-primary'
-                            : 'text-mykisah-text-secondary'
+                                ? 'text-mykisah-primary'
+                                : 'text-mykisah-text-secondary'
                             }`}
                     >
                         Related
@@ -362,8 +416,8 @@ export default function DetailPage() {
                                         key={idx}
                                         onClick={() => handleEpisodeClick(ep)}
                                         className={`bg-mykisah-bg-secondary p-3 rounded-lg border transition-colors cursor-pointer ${isWatched
-                                            ? 'border-mykisah-primary bg-mykisah-primary/10'
-                                            : 'border-mykisah-bg-tertiary hover:border-mykisah-primary'
+                                                ? 'border-mykisah-primary bg-mykisah-primary/10'
+                                                : 'border-mykisah-bg-tertiary hover:border-mykisah-primary'
                                             }`}
                                     >
                                         <div className="flex items-center gap-3">

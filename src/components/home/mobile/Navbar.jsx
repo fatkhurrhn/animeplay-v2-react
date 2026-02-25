@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     return (
-        <nav className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl px-4 py-3 border-b border-white/5">
+        <nav className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl px-4 py-2 border-b border-white/5">
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <i className="ri-vip-crown-line text-2xl" style={{ color: '#ffaf2f' }}></i>
@@ -11,8 +11,8 @@ export default function Navbar() {
 
                 <div className="flex items-center">
                     <span className="text-2xl font-bold tracking-tight">
-                        <span className="text-white">Anime</span>
-                        <span style={{ color: '#ffaf2f' }}>play</span>
+                        <span className="text-white">My</span>
+                        <span style={{ color: '#ffaf2f' }}>Kisah</span>
                     </span>
                 </div>
 

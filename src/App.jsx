@@ -15,12 +15,8 @@ function App() {
         {/* Routes without bottom navigation (full screen) - LETAKKAN DI ATAS */}
 
         <Route path="/detail/:type/:slug" element={<DetailPage />} />
-        {/* Fallback route if type is not specified */}
-        <Route path="/detail/:slug" element={<DetailPage />} />
 
-        {/* Watch page routes */}
-        <Route path="/watch/:type/:episodeSlug" element={<WatchPage />} />
-        <Route path="/watch/:episodeSlug" element={<WatchPage />} />
+        <Route path="/watch/:type/:slug" element={<WatchPage />} />
 
         {/* Routes with bottom navigation */}
         <Route element={<MainLayout />}>

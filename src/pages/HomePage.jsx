@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PageMobile from './PageMobile'
+import MobilePage from './MobilePage'
 import PageDesktop from './PageDesktop'
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
 
   return (
     <>
-      {isMobile ? <PageMobile /> : <PageDesktop />}
+      {isMobile ? <MobilePage /> : <PageDesktop />}
     </>
   )
 }

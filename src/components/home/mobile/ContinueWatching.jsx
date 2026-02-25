@@ -30,7 +30,7 @@ const continueWatchingData = [
 
 export default function ContinueWatching() {
     return (
-        <section>
+        <section className="px-3 pt-3">
             <div className="flex items-center justify-between mb-3">
                 <h2 className="text-base font-semibold text-white">
                     Lanjutkan Menonton
