@@ -6,6 +6,7 @@ import ScrollToTop from '../components/home/mobile/ScrollToTop';
 import DonateSection from '../components/home/mobile/DonateSection';
 import ContinueWatching from '../components/home/mobile/ContinueWatching';
 import Top10Anime from '../components/home/mobile/Top10Anime';
+import PopularToday from '../components/home/mobile/PopularToday';
 
 export default function MobilePage() {
     const [activeTab, setActiveTab] = useState('anime');
@@ -76,7 +77,7 @@ export default function MobilePage() {
     };
 
     return (
-        <div className="min-h-screen bg-mykisah-bg-primary text-mykisah-text-primary pb-20">
+        <div className="min-h-screen bg-mykisah-bg-primary text-mykisah-text-primary pb-4">
             <Navbar />
             <DonateSection/>
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
@@ -90,8 +91,8 @@ export default function MobilePage() {
                 onLoadMoreAnime={loadMoreAnime}
                 onLoadMoreDonghua={loadMoreDonghua}
             />
+            <PopularToday/>
             <Top10Anime/>
-            <ScrollToTop />
         </div>
     );
 }

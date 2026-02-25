@@ -38,8 +38,7 @@ export default function ContinueWatching() {
 
                 <a
                     href="/history"
-                    className="text-sm hover:underline"
-                    style={{ color: "#ffc05f" }}
+                    className="text-sm hover:underline text-mykisah-primary"
                 >
                     History
                 </a>
@@ -57,11 +56,11 @@ export default function ContinueWatching() {
                             />
 
                             {/* gradient biar teks kebaca */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/100 via-black/30 to-transparent" />
 
                             {/* episode + title di dalam gambar */}
                             <div className="absolute bottom-2 left-2 right-2">
-                                <p className="text-[11px] mb-0.5" style={{ color: "#ffc05f" }}>
+                                <p className="text-[11px] mb-0.5 text-mykisah-secondary">
                                     Ep {item.episode}
                                 </p>
 

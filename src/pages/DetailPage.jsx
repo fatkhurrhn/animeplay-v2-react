@@ -222,10 +222,10 @@ export default function DetailPage() {
     return (
         <div className="min-h-screen bg-mykisah-bg-primary text-mykisah-text-primary pb-20">
             {/* Hero Section dengan Poster Full */}
-            <div className="relative h-[420px] md:h-[500px]">
+            <div className="relative h-[320px] md:h-[200px]">
                 {/* Background Image dengan Blur */}
                 <div
-                    className="absolute inset-0 bg-cover bg-[center_6%]"
+                    className="absolute inset-0 bg-cover bg-[center_30%]"
                     style={{ backgroundImage: `url(${image})` }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-t from-mykisah-bg-primary via-mykisah-bg-primary/80 to-transparent"></div>

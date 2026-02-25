@@ -6,7 +6,7 @@ export default function DonateSection() {
             </h2>
 
             <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
-                <p className="text-sm text-white/60 leading-relaxed">
+                <p className="text-sm leading-relaxed">
                     Bantu perkembangkan aplikasi ini dengan berdonasi melalui link berikut di{" "}
                     <a
                         href="https://trakteer.id"

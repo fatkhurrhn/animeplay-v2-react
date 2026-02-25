@@ -19,7 +19,7 @@ const AnimeCard = ({ item, index }) => {
                     <img
                         src={item?.image}
                         alt={item?.title}
-                        className="w-full h-48 object-cover rounded-xl"
+                        className="w-full h-[160px] object-cover rounded-[11px]"
                         onError={(e) => {
                             e.target.src = 'https://via.placeholder.com/300x400?text=No+Image';
                         }}
@@ -44,7 +44,7 @@ const AnimeCard = ({ item, index }) => {
                     )}
 
                     {/* Gradient bawah */}
-                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/90 to-transparent rounded-b-xl" />
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/95 to-transparent rounded-b-[10px]" />
 
                     {/* Episode Text */}
                     <div className="absolute bottom-1 left-2 text-xs text-white">
@@ -101,7 +101,7 @@ const DonghuaCard = ({ item, index }) => {  // ✅ Tambah prop index
                     <img
                         src={item.image}
                         alt={item.series?.title}
-                        className="w-full h-48 object-cover rounded-xl"
+                        className="w-full h-[160px] object-cover rounded-[11px]"
                         onError={(e) => {
                             e.target.src = 'https://via.placeholder.com/300x400?text=No+Image';
                         }}
@@ -126,7 +126,7 @@ const DonghuaCard = ({ item, index }) => {  // ✅ Tambah prop index
                     )}
 
                     {/* Gradient bawah */}
-                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/90 to-transparent rounded-b-xl" />
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/95 to-transparent rounded-b-[10px]" />
 
                     {/* Episode text */}
                     <div className="absolute bottom-1 left-2 text-xs text-white">

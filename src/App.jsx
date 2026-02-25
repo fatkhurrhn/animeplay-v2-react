@@ -1,6 +1,6 @@
 // src/App.jsx
 import { Routes, Route } from 'react-router-dom';
-import MainLayout from './components/layout/MainLayout';
+import MainLayout from './components/BottomNav';
 import HomePage from './pages/HomePage';
 import AutoToTop from './components/AutoToTop';
 import Search from './pages/SearchPage';

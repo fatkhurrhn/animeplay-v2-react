@@ -29,7 +29,7 @@
 @layer base {
   :root {
     /* Palette warna MyKisah - Dark Mode */
-    --mykisah-primary: #f5b048;      /* Oranye utama - untuk logo, tombol aktif */
+    --mykisah-primary: #f3a143;      /* Oranye utama - untuk logo, tombol aktif */
     --mykisah-secondary: #fbc266;     /* Oranye muda - untuk timestamp, aksen */
     --mykisah-tertiary: #fee0ae;      /* Krem - untuk judul section */
     --mykisah-accent: #e39923;        /* Oranye gelap - untuk hover */
