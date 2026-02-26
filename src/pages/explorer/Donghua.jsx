@@ -294,85 +294,195 @@ export default function Donghua() {
 
                 <button
                     onClick={toggleFilters}
-                    className="p-1 transition-colors duration-200"
+                    className="flex items-center gap-1 px-3 py-1.5 bg-dark-bg-tertiary/30 rounded-xl text-gray-300 hover:text-white transition-colors"
                 >
-                    <i
-                        className={`ri-equalizer-line text-[20px] transition-all duration-300
-                ${showFilters
-                                ? 'text-[#f3a143]'
-                                : 'text-gray-400 hover:text-white'
-                            }`}
-                    ></i>
+                    <i className={`ri-filter-3-line text-lg ${showFilters}`}></i>
+                    <span className="text-sm">Filter</span>
                 </button>
             </div>
 
-            {/* Filter Section - Collapsible */}
+            {/* Panel Filter - Style SAMA PERSIS dengan Anime */}
             {showFilters && (
-                <div className="mb-6 p-4 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] animate-fadeIn">
-                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 items-center">
-                        {renderFilterDropdown('Genre', 'genre', filterOptions.genres, true)}
-                        {renderFilterDropdown('Season', 'season', filterOptions.seasons, true)}
-                        {renderFilterDropdown('Studio', 'studio', filterOptions.studios, true)}
-                        {renderFilterDropdown('Status', 'status', filterOptions.statuses, false)}
-                        {renderFilterDropdown('Type', 'type', filterOptions.types, false)}
-                        {renderFilterDropdown('Sub', 'sub', filterOptions.subs, false)}
-                        {renderFilterDropdown('Order', 'order', filterOptions.orders, false)}
-
-                        {/* Action Buttons */}
-                        <div className="col-span-3 sm:col-span-4 lg:col-span-6 flex justify-end gap-2 mt-1">
-                            <button
-                                onClick={resetFilters}
-                                className="px-4 py-2 bg-[#3a3a3a] text-gray-300 rounded-lg hover:bg-[#4a4a4a] transition-colors flex items-center gap-2"
-                            >
-                                <i className="ri-refresh-line"></i>
-                                <span className="hidden sm:inline">Reset</span>
-                            </button>
-
-                            <button
-                                onClick={applyFilters}
-                                className="px-4 py-2 bg-mykisah-primary text-white rounded-lg hover:bg-[#e39923] transition-colors flex items-center gap-2"
-                            >
-                                <i className="ri-search-line"></i>
-                                <span className="hidden sm:inline">Search</span>
-                            </button>
+                <div className="mb-6 p-4 bg-[#2a2a2a] rounded-2xl border border-dark-border animate-fadeIn">
+                    {/* Genre filter */}
+                    <div className="mb-4">
+                        <label className="block text-sm text-gray-400 mb-2">Genre</label>
+                        <div className="flex flex-wrap gap-2">
+                            {filterOptions.genres.map(genre => (
+                                <button
+                                    key={genre}
+                                    onClick={() => handleFilterChange('genre', genre)}
+                                    className={`px-3 py-1 text-xs rounded-full transition-all ${filters.genre?.includes(genre)
+                                            ? 'bg-[#ffaf2f] text-black font-medium'
+                                            : 'bg-dark-bg-tertiary/50 text-gray-400 hover:text-gray-300'
+                                        }`}
+                                >
+                                    {genre}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Active Filters Summary */}
-                    {Object.values(filters).some(f => Array.isArray(f) ? f.length > 0 : f) && (
-                        <div className="mt-3 pt-3 border-t border-[#3a3a3a]">
-                            <div className="flex flex-wrap gap-2">
-                                {Object.entries(filters).map(([key, value]) => {
-                                    if (Array.isArray(value) && value.length > 0) {
-                                        return value.map(v => (
-                                            <span key={`${key}-${v}`} className="inline-flex items-center gap-1 px-2 py-1 bg-[#fee0ae] text-[#1a1a1a] rounded-full text-xs">
-                                                <span>{key}: {v}</span>
-                                                <button
-                                                    onClick={() => handleFilterChange(key, v)}
-                                                    className="hover:text-[#e39923]"
-                                                >
-                                                    <i className="ri-close-line"></i>
-                                                </button>
-                                            </span>
-                                        ))
-                                    } else if (!Array.isArray(value) && value) {
-                                        return (
-                                            <span key={key} className="inline-flex items-center gap-1 px-2 py-1 bg-[#fee0ae] text-[#1a1a1a] rounded-full text-xs">
-                                                <span>{key}: {value}</span>
-                                                <button
-                                                    onClick={() => setFilters(prev => ({ ...prev, [key]: '' }))}
-                                                    className="hover:text-[#e39923]"
-                                                >
-                                                    <i className="ri-close-line"></i>
-                                                </button>
-                                            </span>
-                                        )
-                                    }
-                                    return null
-                                })}
-                            </div>
+                    {/* Season filter */}
+                    <div className="mb-4">
+                        <label className="block text-sm text-gray-400 mb-2">Season</label>
+                        <div className="flex flex-wrap gap-2">
+                            {filterOptions.seasons.map(season => (
+                                <button
+                                    key={season}
+                                    onClick={() => handleFilterChange('season', season)}
+                                    className={`px-3 py-1 text-xs rounded-full transition-all ${filters.season?.includes(season)
+                                            ? 'bg-[#ffaf2f] text-black font-medium'
+                                            : 'bg-dark-bg-tertiary/50 text-gray-400 hover:text-gray-300'
+                                        }`}
+                                >
+                                    {season}
+                                </button>
+                            ))}
                         </div>
-                    )}
+                    </div>
+
+                    {/* Studio filter */}
+                    <div className="mb-4">
+                        <label className="block text-sm text-gray-400 mb-2">Studio</label>
+                        <div className="flex flex-wrap gap-2">
+                            {filterOptions.studios.map(studio => (
+                                <button
+                                    key={studio}
+                                    onClick={() => handleFilterChange('studio', studio)}
+                                    className={`px-3 py-1 text-xs rounded-full transition-all ${filters.studio?.includes(studio)
+                                            ? 'bg-[#ffaf2f] text-black font-medium'
+                                            : 'bg-dark-bg-tertiary/50 text-gray-400 hover:text-gray-300'
+                                        }`}
+                                >
+                                    {studio}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Status dan Type filter */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div>
+                            <label className="block text-sm text-gray-400 mb-2">Status</label>
+                            <select
+                                value={filters.status || ''}
+                                onChange={(e) => handleFilterChange('status', e.target.value)}
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                            >
+                                <option value="">Semua</option>
+                                {filterOptions.statuses.filter(s => s !== '').map(status => (
+                                    <option key={status} value={status}>{status}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-400 mb-2">Type</label>
+                            <select
+                                value={filters.type || ''}
+                                onChange={(e) => handleFilterChange('type', e.target.value)}
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                            >
+                                <option value="">Semua</option>
+                                {filterOptions.types.filter(t => t !== '').map(type => (
+                                    <option key={type} value={type}>{type}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Sub dan Order filter */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div>
+                            <label className="block text-sm text-gray-400 mb-2">Sub</label>
+                            <select
+                                value={filters.sub || ''}
+                                onChange={(e) => handleFilterChange('sub', e.target.value)}
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                            >
+                                <option value="">Semua</option>
+                                {filterOptions.subs.filter(s => s !== '').map(sub => (
+                                    <option key={sub} value={sub}>{sub}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-400 mb-2">Urutkan</label>
+                            <select
+                                value={filters.order || ''}
+                                onChange={(e) => handleFilterChange('order', e.target.value)}
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                            >
+                                <option value="">Default</option>
+                                {filterOptions.orders.map(option => (
+                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="flex gap-2">
+                        <button
+                            onClick={applyFilters}
+                            className="flex-1 py-2 bg-[#ffaf2f] text-[#2a2a2a] font-medium rounded-xl hover:bg-[#ffaf2f]/90 transition-colors"
+                        >
+                            Terapkan Filter
+                        </button>
+                        <button
+                            onClick={resetFilters}
+                            className="px-4 py-2 bg-dark-bg-tertiary/50 text-gray-300 border border-gray-700 rounded-xl hover:bg-dark-bg-tertiary transition-colors"
+                        >
+                            Reset
+                        </button>
+                    </div>
+
+                    {/* Active Filters Summary - Optional, bisa dihapus jika tidak perlu */}
+                    {Object.values(filters).some(f =>
+                        Array.isArray(f) ? f.length > 0 : f && f !== ''
+                    ) && (
+                            <div className="mt-4 pt-3 border-t border-dark-border">
+                                <div className="flex flex-wrap gap-2">
+                                    {Object.entries(filters).map(([key, value]) => {
+                                        if (Array.isArray(value) && value.length > 0) {
+                                            return value.map(v => (
+                                                <span
+                                                    key={`${key}-${v}`}
+                                                    className="inline-flex items-center gap-1 px-3 py-1 bg-[#ffaf2f]/10 text-[#ffaf2f] rounded-full text-xs"
+                                                >
+                                                    <span className="capitalize">{key}: {v}</span>
+                                                    <button
+                                                        onClick={() => {
+                                                            const newValue = value.filter(item => item !== v);
+                                                            handleFilterChange(key, newValue);
+                                                        }}
+                                                        className="hover:text-white ml-1"
+                                                    >
+                                                        <i className="ri-close-line text-sm"></i>
+                                                    </button>
+                                                </span>
+                                            ));
+                                        } else if (!Array.isArray(value) && value && value !== '') {
+                                            return (
+                                                <span
+                                                    key={key}
+                                                    className="inline-flex items-center gap-1 px-3 py-1 bg-[#ffaf2f]/10 text-[#ffaf2f] rounded-full text-xs"
+                                                >
+                                                    <span className="capitalize">{key}: {value}</span>
+                                                    <button
+                                                        onClick={() => handleFilterChange(key, '')}
+                                                        className="hover:text-white ml-1"
+                                                    >
+                                                        <i className="ri-close-line text-sm"></i>
+                                                    </button>
+                                                </span>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                </div>
+                            </div>
+                        )}
                 </div>
             )}
 
@@ -414,17 +524,13 @@ export default function Donghua() {
 
                     {/* Pagination */}
                     {pagination.has_next_page && (
-                        <div className="mt-8 text-center">
+                        <div className="mt-5 text-center">
                             <button
                                 onClick={() => handlePageChange(pagination.next_page)}
-                                className="px-6 py-3 bg-[#f3a143] text-white rounded-lg hover:bg-[#e39923] transition-colors inline-flex items-center gap-2"
+                                className="px-6 py-2 bg-[#f3a143] text-[#2a2a2a] rounded-lg hover:bg-[#e39923] transition-colors inline-flex items-center gap-2"
                             >
                                 <span>Next Page</span>
-                                <i className="ri-arrow-right-s-line"></i>
                             </button>
-                            <p className="mt-2 text-sm text-gray-500">
-                                Page {pagination.current_page}
-                            </p>
                         </div>
                     )}
                 </>

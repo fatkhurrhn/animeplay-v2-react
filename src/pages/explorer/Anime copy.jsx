@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 export default function Anime() {
     const [animeList, setAnimeList] = useState([])
     const [loading, setLoading] = useState(true)
-    const [loadingMore, setLoadingMore] = useState(false)
     const [error, setError] = useState(null)
     const [pagination, setPagination] = useState({
         current_page: 1,
@@ -22,38 +21,27 @@ export default function Anime() {
     })
 
     const [showFilters, setShowFilters] = useState(false)
-    const [showPageInput, setShowPageInput] = useState(false)
-    const [pageInput, setPageInput] = useState('')
 
     // Options untuk dropdown
-    const statusOptions = ['', 'Currently Airing', 'Finished Airing']
+    const statusOptions = ['', 'Ongoing', 'Completed']
     const typeOptions = ['', 'TV', 'OVA', 'ONA', 'Special', 'Movie']
     const orderOptions = [
         { value: '', label: 'Default' },
-        { value: 'title', label: 'A-Z' },
-        { value: 'titlereverse', label: 'Z-A' },
+        { value: 'title', label: 'Title A-Z' },
+        { value: 'titlereverse', label: 'Title Z-A' },
         { value: 'update', label: 'Terbaru' },
-        { value: 'latest', label: 'Latest Added' },
+        { value: 'latest', label: 'Latest Update' },
         { value: 'popular', label: 'Populer' }
     ]
 
     const genreOptions = [
         'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Game',
         'Harem', 'Isekai', 'Mecha', 'Military', 'Mystery', 'Romance',
-        'School', 'Sci-Fi', 'Shoujo', 'Shounen', 'Slice of Life', 'Sports',
-        'Supernatural', 'Ecchi', 'Historical', 'Gore', 'Horror'
+        'School', 'Sci-Fi', 'Shoujo', 'Shounen', 'Slice of Life', 'Sports'
     ]
 
-    const fetchAnimeList = async (page = 1, isLoadMore = false) => {
-        if (isLoadMore) {
-            setLoadingMore(true)
-        } else {
-            setLoading(true)
-            // Reset list jika bukan load more (filter baru atau halaman baru)
-            if (page === 1) {
-                setAnimeList([])
-            }
-        }
+    const fetchAnimeList = async (page = 1) => {
+        setLoading(true)
         setError(null)
 
         try {
@@ -66,7 +54,7 @@ export default function Anime() {
 
             if (filters.genre.length > 0) {
                 filters.genre.forEach(genre => {
-                    url += `&genre[]=${encodeURIComponent(genre.toLowerCase())}`
+                    url += `&genre=${encodeURIComponent(genre)}`
                 })
             }
 
@@ -82,20 +70,11 @@ export default function Anime() {
                 url += `&order=${encodeURIComponent(filters.order)}`
             }
 
-            console.log('Fetching URL:', url)
-
             const response = await fetch(url)
             const result = await response.json()
 
             if (result.success) {
-                if (isLoadMore) {
-                    // Tambahkan data baru ke list yang sudah ada
-                    setAnimeList(prev => [...prev, ...result.data.anime])
-                } else {
-                    // Ganti dengan data baru
-                    setAnimeList(result.data.anime)
-                }
-
+                setAnimeList(result.data.anime)
                 setPagination({
                     current_page: result.pagination.current_page,
                     has_next_page: result.pagination.has_next_page,
@@ -109,12 +88,11 @@ export default function Anime() {
             console.error(err)
         } finally {
             setLoading(false)
-            setLoadingMore(false)
         }
     }
 
     useEffect(() => {
-        fetchAnimeList(1, false)
+        fetchAnimeList(1)
     }, [])
 
     const handleFilterChange = (key, value) => {
@@ -137,7 +115,7 @@ export default function Anime() {
     }
 
     const applyFilters = () => {
-        fetchAnimeList(1, false)
+        fetchAnimeList(1)
         setShowFilters(false)
     }
 
@@ -150,31 +128,13 @@ export default function Anime() {
             order: ''
         })
         setTimeout(() => {
-            fetchAnimeList(1, false)
+            fetchAnimeList(1)
         }, 100)
     }
 
     const loadMore = () => {
-        if (pagination.has_next_page && !loadingMore) {
-            fetchAnimeList(pagination.current_page + 1, true)
-        }
-    }
-
-    const goToPage = (page) => {
-        if (page >= 1 && page <= pagination.last_page) {
-            fetchAnimeList(page, false)
-            // Scroll ke atas
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-        }
-    }
-
-    const handlePageInputSubmit = (e) => {
-        e.preventDefault()
-        const page = parseInt(pageInput)
-        if (!isNaN(page) && page >= 1 && page <= pagination.last_page) {
-            goToPage(page)
-            setShowPageInput(false)
-            setPageInput('')
+        if (pagination.has_next_page) {
+            fetchAnimeList(pagination.current_page + 1)
         }
     }
 
@@ -212,13 +172,6 @@ export default function Anime() {
                 >
                     <i className="ri-filter-3-line text-lg"></i>
                     <span className="text-sm">Filter</span>
-                    {Object.values(filters).some(f =>
-                        Array.isArray(f) ? f.length > 0 : f !== ''
-                    ) && (
-                            <span className="ml-1 px-1.5 py-0.5 bg-[#ffaf2f] text-black text-xs rounded-full">
-                                {filters.genre.length + (filters.status ? 1 : 0) + (filters.type ? 1 : 0) + (filters.order ? 1 : 0) + (filters.title ? 1 : 0)}
-                            </span>
-                        )}
                 </button>
             </div>
 
@@ -233,21 +186,21 @@ export default function Anime() {
                             value={filters.title}
                             onChange={(e) => handleFilterChange('title', e.target.value)}
                             placeholder="Masukkan judul anime..."
-                            className="w-full px-4 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ffaf2f]/50"
+                            className="w-full px-4 py-2 bg-[#2a2a2a] border border-mykisah-primary rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ffaf2f]/50"
                         />
                     </div>
 
                     {/* Genre filter */}
                     <div className="mb-4">
                         <label className="block text-sm text-gray-400 mb-2">Genre</label>
-                        <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-1">
+                        <div className="flex flex-wrap gap-2">
                             {genreOptions.map(genre => (
                                 <button
                                     key={genre}
                                     onClick={() => handleGenreToggle(genre)}
                                     className={`px-3 py-1 text-xs rounded-full transition-all ${filters.genre.includes(genre)
-                                        ? 'bg-[#ffaf2f] text-black font-medium'
-                                        : 'bg-dark-bg-tertiary/50 text-gray-400 hover:text-gray-300'
+                                            ? 'bg-[#ffaf2f] text-black font-medium'
+                                            : 'bg-dark-bg-tertiary/50 text-gray-400 hover:text-gray-300'
                                         }`}
                                 >
                                     {genre}
@@ -263,7 +216,7 @@ export default function Anime() {
                             <select
                                 value={filters.status}
                                 onChange={(e) => handleFilterChange('status', e.target.value)}
-                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-mykisah-primary rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
                             >
                                 <option value="">Semua</option>
                                 {statusOptions.filter(s => s !== '').map(status => (
@@ -276,7 +229,7 @@ export default function Anime() {
                             <select
                                 value={filters.type}
                                 onChange={(e) => handleFilterChange('type', e.target.value)}
-                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                                className="w-full px-3 py-2 bg-[#2a2a2a] border border-mykisah-primary rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
                             >
                                 <option value="">Semua</option>
                                 {typeOptions.filter(t => t !== '').map(type => (
@@ -292,7 +245,7 @@ export default function Anime() {
                         <select
                             value={filters.order}
                             onChange={(e) => handleFilterChange('order', e.target.value)}
-                            className="w-full px-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
+                            className="w-full px-3 py-2 bg-[#2a2a2a] border border-mykisah-primary rounded-xl text-white focus:outline-none focus:border-[#ffaf2f]/50"
                         >
                             {orderOptions.map(option => (
                                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -310,7 +263,7 @@ export default function Anime() {
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="px-4 py-2 bg-dark-bg-tertiary/50 text-gray-300 border border-gray-700 rounded-xl hover:bg-dark-bg-tertiary transition-colors"
+                            className="px-4 py-2 bg-dark-bg-tertiary/50 text-gray-300 border border-mykisah-primary rounded-xl hover:bg-dark-bg-tertiary transition-colors"
                         >
                             Reset
                         </button>
@@ -332,7 +285,7 @@ export default function Anime() {
                     <i className="ri-error-warning-line text-5xl text-red-500 mb-4"></i>
                     <p className="text-red-500 mb-4">{error}</p>
                     <button
-                        onClick={() => fetchAnimeList(1, false)}
+                        onClick={() => fetchAnimeList(1)}
                         className="px-4 py-2 bg-[#ffaf2f] text-black rounded-xl hover:bg-[#ffaf2f]/90"
                     >
                         Coba Lagi
@@ -344,9 +297,9 @@ export default function Anime() {
             {!loading && animeList.length > 0 && (
                 <>
                     <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                        {animeList.map((anime, index) => (
+                        {animeList.map((anime) => (
                             <Link
-                                key={`${anime.slug}-${index}`}
+                                key={anime.slug}
                                 to={`/detail/anime/${anime.slug}`}
                                 className="group block bg-dark-bg-tertiary/20 rounded-xl overflow-hidden hover:scale-[1.02] transition-transform duration-200"
                             >
@@ -365,18 +318,17 @@ export default function Anime() {
                                         <span className="px-1.5 py-0.5 bg-black/70 text-[10px] font-medium text-white rounded backdrop-blur-sm">
                                             {anime.type}
                                         </span>
-                                        <span className={`px-1.5 py-0.5 text-[10px] font-medium rounded backdrop-blur-sm ${anime.status === 'Ongoing' || anime.status === 'Currently Airing'
+                                        <span className={`px-1.5 py-0.5 text-[10px] font-medium rounded backdrop-blur-sm ${anime.status === 'Ongoing'
                                                 ? 'bg-green-500/70 text-white'
                                                 : 'bg-gray-500/70 text-white'
                                             }`}>
-                                            {anime.status === 'Currently Airing' ? 'On Going' :
-                                                anime.status === 'Finished Airing' ? 'Completed' : anime.status}
+                                            {anime.status === 'Ongoing' ? 'On Going' : anime.status}
                                         </span>
                                     </div>
                                     {/* Score badge */}
                                     <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/70 rounded text-[10px] text-[#ffaf2f] font-medium backdrop-blur-sm">
                                         <i className="ri-star-fill text-[8px] mr-0.5"></i>
-                                        {anime.score?.toFixed(1) || '0.0'}
+                                        {anime.score.toFixed(1)}
                                     </div>
                                 </div>
 
@@ -386,18 +338,32 @@ export default function Anime() {
                                     </h3>
 
                                     {/* Views count */}
-                                    {anime.views && (
-                                        <div className="flex items-center gap-1 text-[10px] text-gray-400">
-                                            <i className="ri-eye-line"></i>
-                                            <span>{anime.views.replace(' Views', '')}</span>
-                                        </div>
-                                    )}
+                                    <div className="flex items-center gap-1 text-[10px] text-gray-400">
+                                        <i className="ri-eye-line"></i>
+                                        <span>{anime.views?.replace(' Views', '') || '0'}</span>
+                                    </div>
                                 </div>
                             </Link>
                         ))}
                     </div>
 
-                    
+                    {/* Load more button */}
+                    {pagination.has_next_page && (
+                        <div className="flex justify-center mt-6">
+                            <button
+                                onClick={loadMore}
+                                disabled={loading}
+                                className="px-6 py-2 bg-dark-bg-tertiary/30 text-gray-300 rounded-xl hover:bg-dark-bg-tertiary/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? 'Memuat...' : 'Muat Lebih Banyak'}
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Info jumlah anime */}
+                    <div className="text-center mt-4 text-xs text-gray-500">
+                        Menampilkan {animeList.length} anime
+                    </div>
                 </>
             )}
 

@@ -92,7 +92,7 @@ export default function Top10() {
     }
 
     return (
-        <section className="px-2 pt-2">
+        <section className="px-2 p-4 pt-1">
 
             {/* Header Section */}
             <div className="flex items-center justify-between mb-2 mt-0">

@@ -397,7 +397,137 @@ export default function Anime() {
                         ))}
                     </div>
 
-                    
+                    {/* Pagination Controls */}
+                    {pagination.last_page > 1 && (
+                        <div className="mt-8 flex flex-col items-center gap-4">
+                            {/* Page info */}
+                            <div className="text-sm text-gray-400">
+                                Halaman {pagination.current_page} dari {pagination.last_page}
+                            </div>
+
+                            {/* Pagination buttons */}
+                            <div className="flex items-center gap-2 flex-wrap justify-center">
+                                {/* First page */}
+                                <button
+                                    onClick={() => goToPage(1)}
+                                    disabled={pagination.current_page === 1 || loading}
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <i className="ri-skip-left-line"></i>
+                                </button>
+
+                                {/* Previous page */}
+                                <button
+                                    onClick={() => goToPage(pagination.current_page - 1)}
+                                    disabled={pagination.current_page === 1 || loading}
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <i className="ri-arrow-left-s-line"></i>
+                                </button>
+
+                                {/* Page numbers */}
+                                {[...Array(Math.min(5, pagination.last_page))].map((_, i) => {
+                                    let pageNum
+                                    if (pagination.last_page <= 5) {
+                                        pageNum = i + 1
+                                    } else if (pagination.current_page <= 3) {
+                                        pageNum = i + 1
+                                    } else if (pagination.current_page >= pagination.last_page - 2) {
+                                        pageNum = pagination.last_page - 4 + i
+                                    } else {
+                                        pageNum = pagination.current_page - 2 + i
+                                    }
+
+                                    if (pageNum >= 1 && pageNum <= pagination.last_page) {
+                                        return (
+                                            <button
+                                                key={pageNum}
+                                                onClick={() => goToPage(pageNum)}
+                                                disabled={loading}
+                                                className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${pagination.current_page === pageNum
+                                                        ? 'bg-[#ffaf2f] text-black'
+                                                        : 'bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50'
+                                                    }`}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        )
+                                    }
+                                    return null
+                                })}
+
+                                {/* Next page */}
+                                <button
+                                    onClick={() => goToPage(pagination.current_page + 1)}
+                                    disabled={!pagination.has_next_page || loading}
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <i className="ri-arrow-right-s-line"></i>
+                                </button>
+
+                                {/* Last page */}
+                                <button
+                                    onClick={() => goToPage(pagination.last_page)}
+                                    disabled={pagination.current_page === pagination.last_page || loading}
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <i className="ri-skip-right-line"></i>
+                                </button>
+
+                                {/* Go to page input */}
+                                <div className="relative">
+                                    {showPageInput ? (
+                                        <form onSubmit={handlePageInputSubmit} className="flex items-center">
+                                            <input
+                                                type="number"
+                                                value={pageInput}
+                                                onChange={(e) => setPageInput(e.target.value)}
+                                                min="1"
+                                                max={pagination.last_page}
+                                                className="w-16 h-8 px-2 bg-dark-bg-tertiary/30 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#ffaf2f]"
+                                                autoFocus
+                                                onBlur={() => setTimeout(() => setShowPageInput(false), 200)}
+                                            />
+                                        </form>
+                                    ) : (
+                                        <button
+                                            onClick={() => setShowPageInput(true)}
+                                            className="w-8 h-8 flex items-center justify-center rounded-lg bg-dark-bg-tertiary/30 text-gray-300 hover:bg-dark-bg-tertiary/50 transition-colors"
+                                            title="Go to page"
+                                        >
+                                            <i className="ri-more-line"></i>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Load more button (alternative) */}
+                            {pagination.has_next_page && (
+                                <button
+                                    onClick={loadMore}
+                                    disabled={loadingMore}
+                                    className="mt-2 px-6 py-2 bg-dark-bg-tertiary/30 text-gray-300 rounded-xl hover:bg-dark-bg-tertiary/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                >
+                                    {loadingMore ? (
+                                        <>
+                                            <div className="w-4 h-4 border-2 border-[#ffaf2f] border-t-transparent rounded-full animate-spin"></div>
+                                            <span>Memuat...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="ri-add-line"></i>
+                                            <span>Muat Lebih Banyak</span>
+                                        </>
+                                    )}
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Info jumlah anime */}
+                    <div lassName="text-center mt-4 text-xs text-gray-500">
+                        Menampilkan {animeList.length} anime
+                    </div>c
                 </>
             )}
 
