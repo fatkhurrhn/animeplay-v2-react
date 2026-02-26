@@ -285,7 +285,7 @@ export default function Donghua() {
     )
 
     return (
-        <div className="min-h-screen p-4 pt-3">
+        <div className="min-h-screen px-2 p-4 pt-1">
             {/* Header dengan Filter Toggle */}
             <div className="flex items-center justify-between mb-3">
                 <h1 className="text-lg font-semibold text-white">

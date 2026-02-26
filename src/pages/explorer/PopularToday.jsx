@@ -46,7 +46,7 @@ export default function PopularToday() {
         return '';
     };
 
-    // Format judul agar lebih rapi (menghilangkan "Subtitle Indonesia" dll)
+    // Format judul agar lebih rapi
     const formatTitle = (title) => {
         return title
             .replace(/ Subtitle Indonesia$/i, '')
@@ -64,14 +64,14 @@ export default function PopularToday() {
                         Popular Today
                     </h2>
                 </div>
-                <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                    {[1, 2, 3, 4, 5].map((_, index) => (
-                        <div key={index} className="flex-none w-52 animate-pulse">
+                <div className="grid grid-cols-3 gap-2">
+                    {[1, 2, 3, 4, 5, 6].map((_, index) => (
+                        <div key={index} className="animate-pulse">
                             <div className="rounded-[8px] overflow-hidden bg-white/5">
-                                <div className="w-full h-28 bg-gray-700" />
+                                <div className="w-full aspect-[2/3] bg-gray-700" />
                                 <div className="p-2">
                                     <div className="h-3 bg-gray-700 rounded w-16 mb-2" />
-                                    <div className="h-4 bg-gray-700 rounded w-32" />
+                                    <div className="h-4 bg-gray-700 rounded w-full" />
                                 </div>
                             </div>
                         </div>
@@ -104,24 +104,27 @@ export default function PopularToday() {
     }
 
     return (
-        <section className="px-3 pt-3">
-            <div className="flex items-center justify-between mb-3">
-                <div>
+        <section className="px-2 pt-2">
+            
+            {/* Header Section */}
+            <div className="flex items-center justify-between mb-4 mt-0">
+                <div className="flex items-center gap-2">
                     <h2 className="text-base font-semibold text-white">
                         Popular Today
                     </h2>
                 </div>
 
                 <Link
-                    to="/explore/popular-today"
-                    className="text-sm hover:underline text-mykisah-primary"
+                    to="#"
+                    className="text-sm hover:underline text-mykisah-primary flex items-center gap-1"
                 >
-                    Detail
+                    Semua
                 </Link>
             </div>
 
-            <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                {popularDonghua.map((item, index) => {
+            {/* Grid 3 Kolom */}
+            <div className="grid grid-cols-3 gap-2 pb-[25px]">
+                {popularDonghua.slice(0, 10).map((item, index) => {
                     const slug = extractDonghuaSlug(item.url);
                     const formattedTitle = formatTitle(item.title);
 
@@ -129,33 +132,35 @@ export default function PopularToday() {
                         <Link
                             key={index}
                             to={`/watch/donghua/${slug}`}
-                            className="flex-none w-[150px]"
+                            className="group block"
                         >
-                            <div className="relative rounded-[8px] overflow-hidden bg-white/5 hover:ring-2 hover:ring-mykisah-primary/50 transition-all duration-200">
-
+                            <div className="relative rounded-[8px] overflow-hidden hover:ring-2 hover:ring-mykisah-primary transition-all duration-200">
                                 {/* Cover Image */}
-                                <img
-                                    src={item.image}
-                                    alt={formattedTitle}
-                                    className="w-full h-[190px] object-cover"
-                                    onError={(e) => {
-                                        e.target.src = 'https://via.placeholder.com/300x150?text=No+Image';
-                                    }}
-                                />
+                                <div className="relative aspect-[2/3]">
+                                    <img
+                                        src={item.image}
+                                        alt={formattedTitle}
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                        onError={(e) => {
+                                            e.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
+                                        }}
+                                    />
 
-                                {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/100 via-black/40 to-transparent" />
+                                    {/* Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/100 via-transparent to-transparent" />
 
-                                {/* Episode + Title */}
-                                <div className="absolute bottom-2 left-2 right-2">
-                                    <p className="text-[10px] mb-0.5 opacity-90 text-mykisah-primary">
-                                        {item.episode}
-                                    </p>
-
-                                    <h3 className="text-xs font-semibold leading-tight text-white line-clamp-2">
-                                        {formattedTitle}
-                                    </h3>
+                                    {/* Episode Badge - kiri bawah */}
+                                    <div className="absolute bottom-2 left-1 z-10">
+                                        <span className="bg-black/60 backdrop-blur-sm text-mykisah-primary text-[9px] px-1.5 py-0.5 rounded">
+                                            {item.episode || 'Episode?'}
+                                        </span>
+                                    </div>
                                 </div>
+
+                                {/* Title di Bawah Image */}
+                                <h3 className="text-xs font-semibold leading-tight text-white line-clamp-2 mb-2 px-0.5 group-hover:text-mykisah-primary transition-colors">
+                                    {formattedTitle}
+                                </h3>
                             </div>
                         </Link>
                     );
@@ -168,17 +173,6 @@ export default function PopularToday() {
                     <p className="text-gray-400 text-sm">Tidak ada data popular today</p>
                 </div>
             )}
-
-            {/* CSS untuk hide scrollbar */}
-            <style jsx>{`
-                .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </section>
     );
 }

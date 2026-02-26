@@ -1,58 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function DetailPopularToday() {
-    const [popularDonghua, setPopularDonghua] = useState([]);
+export default function Top10() {
+    const [topAnime, setTopAnime] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [totalData, setTotalData] = useState(0);
+    const [lastUpdated, setLastUpdated] = useState(null);
 
     useEffect(() => {
-        const fetchPopularToday = async () => {
+        const fetchTop10Anime = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('https://api-samehadaku-how-anichin.vercel.app/api/donghua/popular-today');
+                const response = await fetch('https://api-samehadaku-how-anichin.vercel.app/api/anime/top-10');
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch popular donghua today');
+                    throw new Error('Failed to fetch top 10 anime');
                 }
 
                 const result = await response.json();
 
                 if (result.success && result.data) {
-                    setPopularDonghua(result.data);
-                    setTotalData(result.total || result.data.length);
+                    setTopAnime(result.data);
+                    setLastUpdated(result.updated_at);
                 } else {
                     throw new Error('Invalid data format');
                 }
 
             } catch (err) {
                 setError(err.message);
-                console.error('Error fetching popular donghua:', err);
+                console.error('Error fetching top 10 anime:', err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchPopularToday();
+        fetchTop10Anime();
     }, []);
 
-    // Fungsi untuk mengekstrak slug dari URL anichin.moe
-    const extractDonghuaSlug = (url) => {
-        if (typeof url === 'string') {
-            const matches = url.match(/https:\/\/anichin\.moe\/([^\/]+)/);
-            return matches ? matches[1] : '';
-        }
-        return '';
-    };
-
-    // Format judul agar lebih rapi
-    const formatTitle = (title) => {
-        return title
-            .replace(/ Subtitle Indonesia$/i, '')
-            .replace(/ SUBTITLE INDONESIA$/i, '')
-            .replace(/ Episode \d+.*$/i, '')
-            .trim();
+    // Fungsi untuk mengekstrak slug dari URL
+    const extractSlug = (url) => {
+        const matches = url.match(/\/(?:anime|donghua)\/([^\/]+)/);
+        return matches ? matches[1] : '';
     };
 
     // Loading state
@@ -61,7 +49,7 @@ export default function DetailPopularToday() {
             <section className="px-3 pt-3">
                 <div className="flex items-center justify-between mb-3">
                     <h2 className="text-base font-semibold text-white">
-                        Popular Today
+                        Top 10 Anime
                     </h2>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
@@ -87,11 +75,11 @@ export default function DetailPopularToday() {
             <section className="px-3 pt-3">
                 <div className="flex items-center justify-between mb-3">
                     <h2 className="text-base font-semibold text-white">
-                        Popular Today
+                        Top 10 Anime
                     </h2>
                 </div>
                 <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-center">
-                    <p className="text-red-400 text-sm">Gagal memuat data Popular Today</p>
+                    <p className="text-red-400 text-sm">Gagal memuat data Top 10 Anime</p>
                     <button
                         onClick={() => window.location.reload()}
                         className="mt-2 text-xs text-mykisah-primary hover:underline"
@@ -104,31 +92,14 @@ export default function DetailPopularToday() {
     }
 
     return (
-        <section className="px-3 pt-3">
-            <nav className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl px-2 py-2 border-b border-white/5">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                        <i className="ri-vip-crown-line text-2xl text-mykisah-primary"></i>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span className="text-[23px] font-semibold tracking-tight">
-                            <span className="text-white">Popular</span>
-                            <span className="text-mykisah-primary"> Today</span>
-                        </span>
-                    </div>
-
-                    <Link to="/search" className="w-10 h-10 flex items-center justify-center hover:bg-white/5 rounded-2xl transition-all">
-                        <i className="ri-search-line text-xl text-mykisah-primary"></i>
-                    </Link>
-                </div>
-            </nav>
+        <section className="px-2 pt-2">
 
             {/* Header Section */}
-            <div className="flex items-center justify-between mb-4 mt-2">
+            <div className="flex items-center justify-between mb-2 mt-0">
                 <div className="flex items-center gap-2">
+                    {/* <div className="w-1 h-5 bg-mykisah-primary rounded-full"></div> */}
                     <h2 className="text-base font-semibold text-white">
-                        Popular Today
+                        Top 10 Minggu Ini
                     </h2>
                 </div>
 
@@ -142,55 +113,70 @@ export default function DetailPopularToday() {
 
             {/* Grid 3 Kolom */}
             <div className="grid grid-cols-3 gap-2 pb-[25px]">
-                {popularDonghua.slice(0, 10).map((item, index) => {
-                    const slug = extractDonghuaSlug(item.url);
-                    const formattedTitle = formatTitle(item.title);
+                {topAnime.slice(0, 10).map((item, index) => {
+                    const slug = extractSlug(item.url);
 
                     return (
                         <Link
-                            key={index}
-                            to={`/watch/donghua/${slug}`}
+                            key={item.rank || index}
+                            to={`/detail/anime/${slug}`}
                             className="group block"
                         >
                             <div className="relative rounded-[8px] overflow-hidden hover:ring-2 hover:ring-mykisah-primary transition-all duration-200">
+                                {/* Rank Badge */}
+                                <div className="absolute top-2 left-2 z-10">
+                                    <div className={`
+                        text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-lg
+                        ${item.rank === 1 ? 'bg-yellow-400 text-black' :
+                                            item.rank === 2 ? 'bg-gray-300 text-black' :
+                                                item.rank === 3 ? 'bg-amber-600 text-white' :
+                                                    'bg-black/60 backdrop-blur-sm text-white border border-white/20'}
+                    `}>
+                                        {item.rank}
+                                    </div>
+                                </div>
+
                                 {/* Cover Image */}
                                 <div className="relative aspect-[2/3]">
                                     <img
                                         src={item.image}
-                                        alt={formattedTitle}
+                                        alt={item.title}
                                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                         onError={(e) => {
                                             e.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
                                         }}
                                     />
 
-                                    {/* Gradient Overlay */}
+                                    {/* Gradient Overlay - lebih transparan */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/100 via-transparent to-transparent" />
 
-                                    {/* Episode Badge - kiri bawah */}
+                                    {/* Rating Badge - kanan atas */}
+                                    {item.rating && (
+                                        <div className="absolute top-2 right-2 z-10">
+                                            <div className="bg-black/60 backdrop-blur-sm text-yellow-400 text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-0.5 border border-yellow-400/30">
+                                                <i className="ri-star-fill text-[8px]"></i>
+                                                {item.rating}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Type Info - kiri bawah (tetap di dalam image) */}
                                     <div className="absolute bottom-2 left-1 z-10">
-                                        <span className="bg-black/60 backdrop-blur-sm text-mykisah-primary text-[9px] px-1.5 py-0.5 rounded">
-                                            {item.episode || 'Episode?'}
+                                        <span className="bg-black/60 backdrop-blur-sm text-white text-[9px] px-1.5 py-0.5 rounded">
+                                            {item.type || 'Anime'} • #{item.rank}
                                         </span>
                                     </div>
                                 </div>
 
-                                {/* Title di Bawah Image */}
+                                {/* Title di Bawah Image - tanpa background */}
                                 <h3 className="text-xs font-semibold leading-tight text-white line-clamp-2 mb-2 px-0.5 group-hover:text-mykisah-primary transition-colors">
-                                    {formattedTitle}
+                                    {item.title}
                                 </h3>
                             </div>
                         </Link>
                     );
                 })}
             </div>
-
-            {/* Tampilkan pesan jika data kosong */}
-            {popularDonghua.length === 0 && !loading && !error && (
-                <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
-                    <p className="text-gray-400 text-sm">Tidak ada data popular today</p>
-                </div>
-            )}
         </section>
     );
 }

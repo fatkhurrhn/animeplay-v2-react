@@ -101,7 +101,7 @@ export default function Top10Anime() {
                 </div>
 
                 <Link
-                    to="/explore/detail/top-10-anime"
+                    to="/explore/top-10"
                     className="text-sm hover:underline text-mykisah-primary"
                 >
                     Detail

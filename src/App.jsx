@@ -7,8 +7,6 @@ import Search from './pages/SearchPage';
 import WatchPage from './pages/WatchPage';
 import DetailPage from './pages/DetailPage';
 import ExplorePage from './pages/ExplorePage';
-import DetailTop10 from './pages/explorer/DetailTop10';
-import DetailPopularToday from './pages/explorer/DetailPopularToday';
 
 function App() {
   return (
@@ -27,10 +25,6 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/explore/:tab" element={<ExplorePage />} />
 
-
-
-          <Route path="/explore/detail/top-10-anime" element={<DetailTop10 />} />
-          <Route path="/explore/detail/popular-today" element={<DetailPopularToday />} />
           
           <Route path="/search" element={<Search />} />
         </Route>
