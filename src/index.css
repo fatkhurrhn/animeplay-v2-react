@@ -35,17 +35,17 @@
     --mykisah-accent: #e39923;       
     
     /* Background & Surface */
-    --mykisah-bg-primary: #000000;     /* Background utama */
-    --mykisah-bg-secondary: #1a1a1a;   /* Background card */
-    --mykisah-bg-tertiary: #2a2a2a;    /* Background hover, border */
+    --mykisah-bg-primary: #000000;     
+    --mykisah-bg-secondary: #1a1a1a;   
+    --mykisah-bg-tertiary: #2a2a2a;    
     
     /* Text colors */
-    --mykisah-text-primary: #ffffff;    /* Text putih */
-    --mykisah-text-secondary: #9ca3af;  /* Text abu-abu (gray-400) */
+    --mykisah-text-primary: #ffffff;    
+    --mykisah-text-secondary: #9ca3af;  
     
     /* Status colors */
-    --mykisah-hot: #ef4444;             /* Merah untuk badge HOT */
-    --mykisah-sub: #3b82f6;             /* Biru untuk badge SUB */
+    --mykisah-hot: #ef4444;             
+    --mykisah-sub: #3b82f6;             
   }
 
   /* Kalo mau light mode nanti tinggal tambahin class .light-mode */
