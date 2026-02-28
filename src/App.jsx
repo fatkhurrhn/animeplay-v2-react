@@ -25,7 +25,7 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/explore/:tab" element={<ExplorePage />} />
 
-          
+
           <Route path="/search" element={<Search />} />
         </Route>
       </Routes>

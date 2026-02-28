@@ -1,4 +1,5 @@
-#fee0ae
-#fbc266
-#f5b048
-#e39923
+ --mykisah-primary: #f3a143;      
+    --mykisah-secondary: #fbc266;    
+    --mykisah-tertiary: #fee0ae;     
+    --mykisah-accent: #e39923;       
+    
